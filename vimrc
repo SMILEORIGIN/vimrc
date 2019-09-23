@@ -24,8 +24,6 @@
     let $VIMFILES=$HOME.'/.vim'
     call system('mkdir -p ~/.vimtmp/undodir ~/.vimtmp/backupdir ~/.vimtmp/directory')
 
-    let g:vim_markdown_folding_disabled = 1
-
     set wildignore+=*.git\\*,*.tgz,*.zip,*.pyc,*.class
     set path+=./model/,./ctrl/,./lib/,*/templates/,*/static/,..,*/src/
 
@@ -214,6 +212,10 @@
     " vim-gitgutter {{{
         let g:gitgutter_max_signs                = 5000
     " }}}
+
+    " vim-markdown {{{
+        let g:vim_markdown_folding_disabled = 1
+    "}}}
 "}}}
 
 
