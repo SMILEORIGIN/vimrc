@@ -207,6 +207,8 @@
 
         let g:syntastic_cpp_compiler             = 'clang++'
         let g:syntastic_cpp_compiler_options     = '-std=c++11 -stdlib=libc++'
+        " 在要使用的项目下执行：eslint --init
+        let g:syntastic_javascript_checkers      = ['eslint']
     " }}}
 
     " vim-gitgutter {{{
