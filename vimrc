@@ -114,11 +114,21 @@
 
 " Autocommands: {{{
     " vue
-    au BufNewFile,BufRead *.vue,*.js set nowrap
-    au BufNewFile,BufRead *.vue,*.js set tabstop=2
-    au BufNewFile,BufRead *.vue,*.js set shiftwidth=2
-    au BufNewFile,BufRead *.vue,*.js set softtabstop=2
-    au BufNewFile,BufRead *.vue,*.js set filetype=javascript
+    au BufNewFile,BufRead *.vue set nowrap
+    au BufNewFile,BufRead *.vue set tabstop=2
+    au BufNewFile,BufRead *.vue set shiftwidth=2
+    au BufNewFile,BufRead *.vue set softtabstop=2
+    au BufNewFile,BufRead *.vue set filetype=javascript
+
+    au BufNewFile,BufRead *.js,*.ts set nowrap
+    au BufNewFile,BufRead *.js,*.ts set tabstop=4
+    au BufNewFile,BufRead *.js,*.ts set shiftwidth=4
+    au BufNewFile,BufRead *.js,*.ts set softtabstop=4
+    au BufNewFile,BufRead *.js,*.ts set filetype=javascript
+
+    au BufNewFile,BufRead *.md set tabstop=4
+    au BufNewFile,BufRead *.md set shiftwidth=4
+    au BufNewFile,BufRead *.md set softtabstop=4
 
     "compile
     au Filetype c      map <F5> <Esc>:w<CR>:!gcc % -std=c99 -g -o %< -lm && ./%< <CR>
@@ -163,6 +173,7 @@
 
 
     " NERDTree: {{{
+        " let NERDTreeShowHidden        = 1
         let g:NERDTreeBookmarksFile   = $HOME.'/.vimtmp/NerdBookmarks.txt'
         let g:NERDTreeShowBookmarks   = 1
         let g:NERDTreeShowFiles       = 1
@@ -189,10 +200,7 @@
     " }}}
 
     " ctrlp.vim {{{
-        let g:ctrlp_user_command       = [
-                    \ '.git/',
-                    \ 'git --git-dir   = %s/.git ls-files -oc --exclude-standard'
-                    \ ]
+        let g:ctrlp_user_command       = ['.git', 'cd %s && git ls-files -co --exclude-standard']
         let g:ctrlp_cmd                = 'CtrlPMixed'
         let g:ctrlp_match_window       = 'bottom,order:btt,min:5,max:5,results:10'
         let g:ctrlp_mruf_default_order = 1
