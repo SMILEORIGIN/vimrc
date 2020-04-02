@@ -102,6 +102,7 @@
     nmap <leader>3 :NERDTreeToggle          <cr>
     nmap <leader>e :Errors                  <cr>
     nmap <leader>ss :setlocal spell!        <cr>
+    nmap <leader>df :!git diff %            <cr>
 
     nmap <c-l> <esc>:noh                    <cr>
 
