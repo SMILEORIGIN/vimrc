@@ -106,8 +106,8 @@
 
     nmap <c-l> <esc>:noh                    <cr>
 
-    nmap <c-w>h gT                          <cr>
-    nmap <c-w>l gt                          <cr>
+    nmap <c-t>h gT                          <cr>
+    nmap <c-t>l gt                          <cr>
 
     noremap gh <C-W>h
     noremap gk <C-W>k
