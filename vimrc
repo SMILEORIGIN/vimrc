@@ -168,7 +168,7 @@
     Plug 'scrooloose/nerdtree',
     Plug 'kien/ctrlp.vim',
     Plug 'tpope/vim-commentary',
-    Plug 'vim-syntastic/syntastic',
+    Plug 'dense-analysis/ale',
     Plug 'airblade/vim-gitgutter',
     Plug 'plasticboy/vim-markdown',
     Plug 'mzlogin/vim-markdown-toc',
@@ -210,16 +210,11 @@
         let g:ctrlp_mruf_default_order = 1
     " }}}
 
-    " syntastic {{{
-        set statusline+=%{SyntasticStatuslineFlag()}
-
-        let g:syntastic_check_on_wq              = 0
-        let g:syntastic_check_on_open            = 1
-        let g:syntastic_always_populate_loc_list = 1
-
-        let g:syntastic_cpp_compiler             = 'clang++'
-        let g:syntastic_cpp_compiler_options     = '-std=c++11 -stdlib=libc++'
-        let g:syntastic_javascript_checkers      = ['eslint']
+    " ale {{{
+        let g:ale_linters = {
+        \   'javascript': ['eslint'],
+        \}
+        let g:ale_javascript_eslint_suppress_missing_config = 1
     " }}}
 
     " vim-gitgutter {{{
