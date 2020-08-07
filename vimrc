@@ -100,9 +100,11 @@
     nmap <leader>w :w                       <cr>
     nmap <leader>q :q                       <cr>
     nmap <leader>3 :NERDTreeToggle          <cr>
-    nmap <leader>e :Errors                  <cr>
     nmap <leader>ss :setlocal spell!        <cr>
     nmap <leader>df :!git diff %            <cr>
+
+    nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+    nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
     nmap <c-l> <esc>:noh                    <cr>
 
