@@ -75,71 +75,39 @@
 " Color: {{{
      syntax on
      set background=dark
-     " colorscheme darkblue
      colorscheme ron
-     " colorscheme peachpuff
-     " colorscheme torte
-     " colorscheme delek
-     " colorscheme desert
 " }}}
 
 
 " Shortcuts: {{{
-    nmap <leader>c :set filetype=css        <cr>
-    nmap <leader>d :set filetype=htmldjango <cr>
-    nmap <leader>g :set filetype=go         <cr>
-    nmap <leader>h :set filetype=html       <cr>
-    nmap <leader>j :set filetype=javascript <cr>
-    nmap <leader>l :set filetype=lua        <cr>
-    nmap <leader>m :set filetype=markdown   <cr>
-    nmap <leader>s :set filetype=sh         <cr>
-    nmap <leader>t :set filetype=txt        <cr>
-    nmap <leader>v :set filetype=vim        <cr>
-    nmap <leader>p :set filetype=python     <cr>
+    nmap <leader>w :w                               <cr>
+    nmap <leader>q :q                               <cr>
+    nmap <leader>ss :setlocal spell!                <cr>
+    nmap <leader>df :!git diff %                    <cr>
+    nmap <leader>3 :call NERDTreeToggleInCurDir()   <cr>
 
-    nmap <leader>w :w                       <cr>
-    nmap <leader>q :q                       <cr>
-    nmap <leader>3 :NERDTreeToggle          <cr>
-    nmap <leader>ss :setlocal spell!        <cr>
-    nmap <leader>df :!git diff %            <cr>
-
-    nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-    nmap <silent> <C-j> <Plug>(ale_next_wrap)
-
-    nmap <c-l> <esc>:noh                    <cr>
-
-    nmap <c-t>h gT                          <cr>
-    nmap <c-t>l gt                          <cr>
+    nmap <c-t>h gT                                  <cr>
+    nmap <c-t>l gt                                  <cr>
+    nmap <c-l> <esc>:noh                            <cr>
 
     noremap gh <C-W>h
     noremap gk <C-W>k
     noremap gl <C-W>l
     noremap gj <C-W>j
+
+    " ale
+    nmap <leader>s :ALEToggle                       <cr>
+    nmap <leader>d :ALEDetail                       <cr>
+    nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+    nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " }}}
 
 
 " Autocommands: {{{
-    " vue
-    au BufNewFile,BufRead *.vue set nowrap
-    au BufNewFile,BufRead *.vue set tabstop=2
-    au BufNewFile,BufRead *.vue set shiftwidth=2
-    au BufNewFile,BufRead *.vue set softtabstop=2
-    au BufNewFile,BufRead *.vue set filetype=javascript
-
-    au BufNewFile,BufRead *.js,*.ts set nowrap
-    au BufNewFile,BufRead *.js,*.ts set tabstop=4
-    au BufNewFile,BufRead *.js,*.ts set shiftwidth=4
-    au BufNewFile,BufRead *.js,*.ts set softtabstop=4
-    au BufNewFile,BufRead *.js,*.ts set filetype=javascript
-
-    au BufNewFile,BufRead *.md set tabstop=4
-    au BufNewFile,BufRead *.md set shiftwidth=4
-    au BufNewFile,BufRead *.md set softtabstop=4
-
     "compile
-    au Filetype c      map <F5> <Esc>:w<CR>:!gcc % -std=c99 -g -o %< -lm && ./%< <CR>
-    au Filetype cpp    map <F5> <Esc>:w<CR>:!g++ % -std=c++11 -g -o %< -lm && ./%< <CR>
-    au Filetype python map <F5> <Esc>:w<CR>:!python3 % <CR>
+    au Filetype c      map <F5> <Esc>:w<cr>:!gcc % -std=c99 -g -o %< -lm && ./%<        <cr>
+    au Filetype cpp    map <F5> <Esc>:w<cr>:!g++ % -std=c++11 -g -o %< -lm && ./%<      <cr>
+    au Filetype python map <F5> <Esc>:w<cr>:!python3 %                                  <cr>
 " }}}
 
 
@@ -156,38 +124,55 @@
           \   exe "normal g`\"" |
           \ endif
     endif
+
+    function! NERDTreeToggleInCurDir()
+        " If NERDTree is open in the current buffer
+        if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+            exe ":NERDTreeClose"
+        else
+            if (expand("%:t") != '')
+                exe ":NERDTreeFind"
+            else
+                exe ":NERDTreeToggle"
+            endif
+        endif
+    endfunction
 " }}}
 
 
 " Statusline: {{{
-    set laststatus=2
-    set statusline=%F%m%r%h%w%=\ [ft=%Y]\ %{\"[fec=\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [ff=%{&ff}]\ [%l/%L]
+    " set laststatus=2
+    " set statusline=%F%m%r%h%w%=\ [ft=%Y]\ %{\"[fec=\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [ff=%{&ff}]\ [%l/%L]
 " }}}
 
 
 " Plugins: {{{
     call plug#begin('~/.vim/plugged')
-    Plug 'scrooloose/nerdtree',
     Plug 'kien/ctrlp.vim',
+    Plug 'godlygeek/tabular',
+    Plug 'scrooloose/nerdtree',
     Plug 'tpope/vim-commentary',
-    Plug 'dense-analysis/ale',
     Plug 'airblade/vim-gitgutter',
+    Plug 'vim-airline/vim-airline',
     Plug 'plasticboy/vim-markdown',
     Plug 'mzlogin/vim-markdown-toc',
-    Plug 'godlygeek/tabular'
+    Plug 'pangloss/vim-javascript',
+    Plug 'leafgarland/typescript-vim',
+    Plug 'quramy/tsuquyomi',
+    Plug 'dense-analysis/ale'
     call plug#end()
 
 
     " NERDTree: {{{
-        " let NERDTreeShowHidden        = 1
-        let g:NERDTreeBookmarksFile   = $HOME.'/.vimtmp/NerdBookmarks.txt'
-        let g:NERDTreeShowBookmarks   = 1
-        let g:NERDTreeShowFiles       = 1
-        let g:NERDTreeShowLineNumbers = 0
-        let g:NERDTreeWinSize         = 30
-        let g:NERDTreeMinimalUI       = 1
-        let g:NERDTreeDirArrows       = 1
-        let g:NERDTreeIgnore          = [
+        let g:NERDTreeBookmarksFile         = $HOME.'/.vimtmp/NerdBookmarks.txt'
+        let g:NERDTreeShowBookmarks         = 1
+        let g:NERDTreeShowFiles             = 1
+        let g:NERDTreeShowLineNumbers       = 0
+        let g:NERDTreeWinSize               = 30
+        let g:NERDTreeMinimalUI             = 1
+        let g:NERDTreeDirArrows             = 1
+        let NERDTreeStatusline              = 0
+        let g:NERDTreeIgnore                = [
                     \ '.*\.class',
                     \ '.*\.chm',
                     \ '.*\.ttf',
@@ -206,26 +191,42 @@
     " }}}
 
     " ctrlp.vim {{{
-        let g:ctrlp_user_command       = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-        let g:ctrlp_cmd                = 'CtrlPMixed'
-        let g:ctrlp_match_window       = 'bottom,order:btt,min:5,max:5,results:10'
-        let g:ctrlp_mruf_default_order = 1
-    " }}}
-
-    " ale {{{
-        let g:ale_linters = {
-        \   'javascript': ['eslint'],
-        \}
-        let g:ale_javascript_eslint_suppress_missing_config = 1
+        let g:ctrlp_user_command            = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+        let g:ctrlp_cmd                     = 'CtrlPMixed'
+        let g:ctrlp_match_window            = 'bottom,order:btt,min:5,max:5,results:10'
+        let g:ctrlp_mruf_default_order      = 1
     " }}}
 
     " vim-gitgutter {{{
-        let g:gitgutter_max_signs                = 5000
+        let g:gitgutter_max_signs           = 5000
     " }}}
 
     " vim-markdown {{{
         let g:vim_markdown_folding_disabled = 1
     "}}}
+
+    " ale {{{
+        let g:ale_linters = {
+        \   'c': ['clang'],
+        \   'c++': ['clang'],
+        \   'python': ['pylint'],
+        \   'javascript': ['eslint'],
+        \   'typescript': [],
+        \}
+        " \   'typescript': ['eslint', 'tsserver'],
+        let g:ale_fixers = {
+        \   'javascript': ['eslint'],
+        \}
+
+        let g:ale_completion_enabled                        = 1
+        let g:ale_javascript_eslint_suppress_missing_config = 1
+    " }}}
+
+    " vim-javascript {{{
+        let javascript_enable_domhtmlcss                    = 1
+    " }}}
+
+    " airline {{{
+        " let g:airline#extensions#tabline#enabled          = 1
+    " }}}
 "}}}
-
-
