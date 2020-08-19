@@ -141,8 +141,8 @@
 
 
 " Statusline: {{{
-    " set laststatus=2
-    " set statusline=%F%m%r%h%w%=\ [ft=%Y]\ %{\"[fec=\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [ff=%{&ff}]\ [%l/%L]
+    set laststatus=2
+    set statusline=%f%m%r%h%w%=\ [%Y]\ %{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\"+\":\"\").\"]\"}\ [%{&ff}]\ [%l/%L:%v]
 " }}}
 
 
@@ -153,7 +153,6 @@
     Plug 'scrooloose/nerdtree',
     Plug 'tpope/vim-commentary',
     Plug 'airblade/vim-gitgutter',
-    Plug 'vim-airline/vim-airline',
     Plug 'plasticboy/vim-markdown',
     Plug 'mzlogin/vim-markdown-toc',
     Plug 'pangloss/vim-javascript',
@@ -171,7 +170,7 @@
         let g:NERDTreeWinSize               = 30
         let g:NERDTreeMinimalUI             = 1
         let g:NERDTreeDirArrows             = 1
-        let NERDTreeStatusline              = 0
+        let NERDTreeStatusline              = 'NERDTree'
         let g:NERDTreeIgnore                = [
                     \ '.*\.class',
                     \ '.*\.chm',
@@ -224,9 +223,5 @@
 
     " vim-javascript {{{
         let javascript_enable_domhtmlcss                    = 1
-    " }}}
-
-    " airline {{{
-        " let g:airline#extensions#tabline#enabled          = 1
     " }}}
 "}}}
