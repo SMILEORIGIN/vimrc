@@ -12,7 +12,7 @@
 "       -> General                                            "
 "       -> Color                                              "
 "       -> Shortcuts                                          "
-"       -> Autocommands                                       "
+"       -> CompileRun                                         "
 "       -> Extended                                           "
 "       -> Statusline                                         "
 "       -> Plugins                                            "
@@ -22,7 +22,7 @@
 
 " General: {{{
     let $VIMFILES=$HOME.'/.vim'
-    call system('mkdir -p ~/.vimtmp/undodir ~/.vimtmp/backupdir ~/.vimtmp/directory')
+    call system('mkdir -p ~/.vimtmp/undodir ~/.vimtmp/directory')
 
     set wildignore+=*.git\\*,*.tgz,*.zip,*.pyc,*.class
     set path+=./model/,./ctrl/,./lib/,*/templates/,*/static/,..,*/src/
@@ -32,7 +32,6 @@
     filetype plugin on
 
     set title
-    set backup
     set number
     set hlsearch
     set expandtab
@@ -40,6 +39,10 @@
     set nocompatible
     set ffs=unix,dos,mac
     set t_Co=256
+    set cmdheight=1
+    set nobackup
+    set nowb
+    set noswapfile
 
     set hidden
     set showcmd
@@ -47,6 +50,7 @@
     set noautochdir
     set noshowmatch
     set autowriteall
+    set lazyredraw
 
     set ignorecase smartcase
     set smartindent cindent autoindent
@@ -66,16 +70,19 @@
     set nowrapscan
     set undodir=~/.vimtmp/undodir
                 \ directory=~/.vimtmp/directory
-                \ backupdir=~/.vimtmp/backupdir
                 \ viewdir=~/.vimtmp/view
                 \ undofile
 " }}}
 
 
 " Color: {{{
-     syntax on
-     set background=dark
-     colorscheme ron
+    syntax on
+    set background=dark
+
+    " try
+    "     colorscheme ron
+    " catch
+    " endtry
 " }}}
 
 
@@ -86,8 +93,13 @@
     nmap <leader>df :!git diff %                    <cr>
     nmap <leader>3 :call NERDTreeToggleInCurDir()   <cr>
 
-    nmap <c-t>h gT                                  <cr>
-    nmap <c-t>l gt                                  <cr>
+    map <leader>tn :tabnew                          <cr>
+    map <leader>to :tabonly                         <cr>
+    map <leader>tc :tabclose                        <cr>
+
+    map <leader>l :bnext                            <cr>
+    map <leader>h :bprevious                        <cr>
+
     nmap <c-l> <esc>:noh                            <cr>
 
     noremap gh <C-W>h
@@ -103,11 +115,33 @@
 " }}}
 
 
-" Autocommands: {{{
-    "compile
-    au Filetype c      map <F5> <Esc>:w<cr>:!gcc % -std=c99 -g -o %< -lm && ./%<        <cr>
-    au Filetype cpp    map <F5> <Esc>:w<cr>:!g++ % -std=c++11 -g -o %< -lm && ./%<      <cr>
-    au Filetype python map <F5> <Esc>:w<cr>:!python3 %                                  <cr>
+" CompileRun: {{{
+    map <F5> :call CompileRun()<CR>
+    imap <F5> <Esc>:call CompileRun()<CR>
+    vmap <F5> <Esc>:call CompileRun()<CR>
+
+    func! CompileRun()
+    exec "w"
+    if &filetype == 'c'
+        silent exec "!gcc % -std=c11 -g -o /tmp/%< -lm"
+        exec "!time /tmp/%<"
+    elseif &filetype == 'cpp'
+        silent exec "!g++ % -std=c++17 -g -o /tmp/%< -lm"
+        exec "!time /tmp/%<"
+    elseif &filetype == 'java'
+        silent exec "!javac %"
+        exec "!time java %"
+    elseif &filetype == 'javascript'
+        exec "!time node %"
+    elseif &filetype == 'sh'
+        exec "!time bash %"
+    elseif &filetype == 'python'
+        exec "!time python3 %"
+    elseif &filetype == 'go'
+        silent exec "!go build %<"
+        exec "!time go run %"
+    endif
+    endfunc
 " }}}
 
 
@@ -158,9 +192,8 @@
     Plug 'pangloss/vim-javascript',
     Plug 'leafgarland/typescript-vim',
     Plug 'quramy/tsuquyomi',
-    Plug 'dense-analysis/ale'
+    Plug 'dense-analysis/ale',
     call plug#end()
-
 
     " NERDTree: {{{
         let g:NERDTreeBookmarksFile         = $HOME.'/.vimtmp/NerdBookmarks.txt'
@@ -207,7 +240,7 @@
     " ale {{{
         let g:ale_linters = {
         \   'c': ['clang'],
-        \   'c++': ['clang'],
+        \   'cpp': ['clang', 'g++'],
         \   'python': ['pylint'],
         \   'javascript': ['eslint'],
         \   'typescript': [],
@@ -219,6 +252,8 @@
 
         let g:ale_completion_enabled                        = 1
         let g:ale_javascript_eslint_suppress_missing_config = 1
+        let g:ale_cpp_cc_executable                         = 'clang'
+        let g:ale_cpp_clang_options                         = '-std=c++17 -Wall'
     " }}}
 
     " vim-javascript {{{
