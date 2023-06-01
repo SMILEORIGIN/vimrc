@@ -123,11 +123,11 @@
     func! CompileRun()
     exec "w"
     if &filetype == 'c'
-        silent exec "!gcc % -std=c11 -g -o /tmp/%< -lm"
-        exec "!time /tmp/%<"
+        silent exec "!gcc % -std=c11 -g -o /tmp/%:t:r -lm"
+        exec "!time /tmp/%:t:r"
     elseif &filetype == 'cpp'
-        silent exec "!g++ % -std=c++17 -g -o /tmp/%< -lm"
-        exec "!time /tmp/%<"
+        silent exec "!g++ % -std=c++17 -g -o /tmp/%:t:r -lm"
+        exec "!time /tmp/%:t:r"
     elseif &filetype == 'java'
         silent exec "!javac %"
         exec "!time java %"
