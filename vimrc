@@ -92,6 +92,7 @@
     nmap <leader>ss :setlocal spell!                <cr>
     nmap <leader>df :!git diff %                    <cr>
     nmap <leader>3 :call NERDTreeToggleInCurDir()   <cr>
+    nmap <leader>f :!clang-format -i %              <cr>
 
     map <leader>tn :tabnew                          <cr>
     map <leader>to :tabonly                         <cr>
