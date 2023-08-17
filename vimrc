@@ -100,6 +100,7 @@
 
     map <leader>l :bnext                            <cr>
     map <leader>h :bprevious                        <cr>
+    map <leader>r :call CompileRun()                <cr>
 
     nmap <c-l> <esc>:noh                            <cr>
 
