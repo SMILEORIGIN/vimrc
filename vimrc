@@ -43,6 +43,7 @@
     set nobackup
     set nowb
     set noswapfile
+    set nofixeol
 
     set hidden
     set showcmd
